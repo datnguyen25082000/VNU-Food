@@ -1,41 +1,41 @@
-const db = require('../utils/db');
+// const db = require('../utils/db');
 
-const TBL_CATEGORIES = 'categories';
+// const TBL_CATEGORIES = 'categories';
 
-module.exports = {
-  all() {
-    return db.load(`select * from ${TBL_CATEGORIES}`);
-  },
+// module.exports = {
+//   all() {
+//     return db.load(`select * from ${TBL_CATEGORIES}`);
+//   },
 
-  allWithDetails() {
-    const sql = `
-      select c.*, count(p.proID) as ProductCount
-      from categories c left join products p on c.catID = p.catID
-      group by c.catID, c.catName
-    `;
-    return db.load(sql);
-  },
+//   allWithDetails() {
+//     const sql = `
+//       select c.*, count(p.proID) as ProductCount
+//       from categories c left join products p on c.catID = p.catID
+//       group by c.catID, c.catName
+//     `;
+//     return db.load(sql);
+//   },
 
-  async single(id) {
-    const rows = await db.load(`select * from ${TBL_CATEGORIES} where catID = ${id}`);
-    if (rows.length === 0)
-      return null;
+//   async single(id) {
+//     const rows = await db.load(`select * from ${TBL_CATEGORIES} where catID = ${id}`);
+//     if (rows.length === 0)
+//       return null;
 
-    return rows[0];
-  },
+//     return rows[0];
+//   },
 
-  add(entity) {
-    return db.add(entity, TBL_CATEGORIES)
-  },
+//   add(entity) {
+//     return db.add(entity, TBL_CATEGORIES)
+//   },
 
-  del(entity) {
-    const condition = { CatID: entity.CatID };
-    return db.del(condition, TBL_CATEGORIES);
-  },
+//   del(entity) {
+//     const condition = { CatID: entity.CatID };
+//     return db.del(condition, TBL_CATEGORIES);
+//   },
 
-  patch(entity) {
-    const condition = { CatID: entity.CatID };
-    delete entity.CatID;
-    return db.patch(entity, condition, TBL_CATEGORIES);
-  }
-};
+//   patch(entity) {
+//     const condition = { CatID: entity.CatID };
+//     delete entity.CatID;
+//     return db.patch(entity, condition, TBL_CATEGORIES);
+//   }
+// };
