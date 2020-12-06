@@ -41,9 +41,6 @@ router.get('/:id', async function (req, res) {
 })
 
 
-
-
-
 router.route('/check').post((req, res) => {
   User.find(req.body)
     .then(user => {
