@@ -8,7 +8,7 @@ export default class ListPost extends Component {
             <Post />
         );
         return (
-            <ul style={{padding: "20px"}}>{listItems}</ul>
+            <ul style={{padding: "20px"}} className='row'>{listItems}</ul>
         )
     }
 }
