@@ -1,8 +1,9 @@
 import { Route, Redirect } from "react-router-dom";
 import Auth from "./Auth";
-import Admin from "./component/Admin";
-import User from "./component/User";
+import Admin from "./Pages/Dashboard/Admin";
+import User from "./Pages/Dashboard/User";
 import axios from 'axios';
+import Page404 from './Pages/Page404/Page404'
 import React, { useState, useEffect } from 'react';
 
 
@@ -48,7 +49,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
                 }
                 else {
                     return (
-                       <p>404</p>
+                        <Page404 />
                     );
                 }
             }}

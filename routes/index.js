@@ -1,13 +1,12 @@
 var express = require('express');
+let User = require('../models/user.model');
 
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  console.log(req.cookies);
   res.cookie('cookie1', 'This is my first cookie', { signed: true });
   res.render('index', { title: '//' });
-
 });
 
 router.post('/authenticate', (req, res) => {
@@ -16,25 +15,23 @@ router.post('/authenticate', (req, res) => {
     signed: true,
   };
 
-  console.log("req body : " + req.body.username + " " + req.body.password);
+  const user = User.find(req.body)
+    .then(user => {
+      if (user[0] !== undefined) {
+        if (user[0].userType == 'admin' || user[0].userType == 'user') {
+          if (req.cookies.toString() != '') {
+            res.cookie('account', user[0].userType, { signed: true });
+          }
 
-  if (req.body.username == 'admin' || req.body.username == 'user') {
-    
-    console.log(req.cookies);
-
-    try {
-      if(req.cookies.toString() != '') {
-        res.cookie('account', req.body.username , { signed : true });
+          res.status(200).json({ screen: user[0].userType });
+        }
       }
-    } catch (error) {
-      
+      else {
+        res.status(200).json({ screen: '' })
+      }
     }
-    
-    res.status(200).json({ screen: req.body.username });
-  } 
-  else {
-    res.status(200).json({ screen: '' });
-  }
+    )
+    .catch(error => res.status(200).json({ screen: '' }));
 });
 
 router.get('/read-cookie', (req, res) => {
@@ -66,5 +63,8 @@ router.get('/get-data', (req, res) => {
   }
 });
 
+router.post('/register', (req, res) => {
+  console.log('register')
+});
 
 module.exports = router;

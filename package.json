@@ -2,10 +2,10 @@
   "name": "VNU-Food",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app"
+    "start": "nodemon app"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +20,8 @@
     "express-handlebars": "^5.2.0",
     "express-middleware": "^3.4.2",
     "mongoose": "^5.10.18"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

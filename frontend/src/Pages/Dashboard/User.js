@@ -1,9 +1,9 @@
-import Auth from '../Auth';
 import React from 'react'
+import Auth from '../../Auth';
 import axios from 'axios';
 
-export default function Admin(props) {
 
+export default function User(props) {
     function handleLogout() {
         Auth.logout(async () => {
             try {
@@ -14,15 +14,10 @@ export default function Admin(props) {
             props.history.push("/login");
         });
     };
-
-
     return (
         <div>
-            <div>
-                <p>Admin panel</p>
-                <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" onClick={handleLogout}>Logout</button>
-
-            </div>
+            <p>User screen</p>
+            <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" onClick={handleLogout}>Logout</button>
         </div>
     )
 }
