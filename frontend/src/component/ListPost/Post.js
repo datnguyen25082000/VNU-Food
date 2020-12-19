@@ -4,7 +4,6 @@ export default class Post extends Component {
     render() {
         return (
             <div className='col-md-6 p-lg-5 m-auto py-3'>
-
                 <div type='button' class="card shadow rounded">
                     <div class="card-header">
                         <div className="d-flex ">
