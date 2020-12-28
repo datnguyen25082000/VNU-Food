@@ -22,53 +22,67 @@ export const Register = (props) => {
         }
     };
     return (
-        <div><form action="" method="post" style={{ height: '100vh' }}>
-            <div className='row m-auto h-100'>
-                <div class="jumbotron col-8 col-md-6 m-auto">
-                    <h1 class="display-4 text-center">REGISTER</h1>
+        <div className="container d-flex min-vh-100">
+            <div className="row no-gutters my-auto">
 
+                <div className="mx-auto col-md-6 no-gutters">
 
-                    <div class="form-group">
-                        <label for="name">Your full name</label>
-                        <input type="text" class="form-control" name="name" id="name" aria-describedby="helpId" placeholder="" />
+                    <div className="row no-gutters">
+                        <div className="col-xs-1 col-md-3"></div>
+                        <div className="col-xs-10 col-md-12">
+                            <form action="" method="post">
+                                <div className="jumbotron" style={{marginBottom: "0px !important"}}>
+                                    <h1 className="display-4 text-center">REGISTER</h1>
+                                    <div className="row">
+                                        <div className="form-group col-sm-10 col-lg-5">
+                                            <label for="name">Your full name</label>
+                                            <input type="text" className="form-control" name="name" id="name" aria-describedby="helpId"
+                                                placeholder="" />
+                                        </div>
+                                        <div className="form-group col-sm-10 col-lg-7">
+                                            <label for="email">Email</label>
+                                            <input type="text" className="form-control" name="email" id="email" aria-describedby="helpId"
+                                                placeholder="" />
+                                        </div>
+                                        <div className="form-group col-md-12">
+                                            <label for="username">Username</label>
+                                            <input type="text" className="form-control" name="username" id="username" aria-describedby="helpId"
+                                                placeholder="" />
+                                        </div>
+                                        <div className="form-group col-md-10 col-lg-5">
+                                            <label for="password">Password</label>
+                                            <input type="password" className="form-control" name="password" id="password" aria-describedby="helpId"
+                                                placeholder="" />
+                                        </div>
+                                        <div className="form-group col-md-10 col-lg-7">
+                                            <label for="password2">Confirm password</label>
+                                            <input type="password" className="form-control" name="password2" id="password2"
+                                                aria-describedby="helpId" placeholder="" />
+                                        </div>
+
+                                        <div className="form-group col-12">
+                                            <input onClick={register} className="btn btn-primary p-3 w-100" aria-describedby="helpId"
+                                                placeholder="Sign Up" value="Sign Up" />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-xs-10 col-md-6">
+                                            <p className="text-center">Already have an account ?</p>
+                                        </div>
+                                        <div className="col-xs-10 col-md-6 text-right">
+                                            <a className="text-center" href='/login'>Go to Sign in</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+    
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" class="form-control" name="email" id="email" aria-describedby="helpId" placeholder="" />
+                        <div className="col-xs-1 col-md-3"></div>
                     </div>
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" aria-describedby="helpId" placeholder="" />
-                    </div>
-                    <div className='row'>
-                        <div className='col-6'> <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" id="password" aria-describedby="helpId"
-                                placeholder="" />
-                        </div></div>
-                        <div className='col-6'> <div class="form-group">
-                            <label for="password2">Confirm password</label>
-                            <input type="password" class="form-control" name="password2" id="password2" aria-describedby="helpId"
-                                placeholder="" />
-                        </div></div>
-                    </div>
-
-
-
-                    <div class="form-group">
-                        <button  onClick={register} class="btn btn-primary" aria-describedby="helpId" placeholder="" submit >SUBMIT</button>
-                    </div>
-
-                    <p class="lead">
-                        <a class="btn btn-primary mr-3" href="/" role="button">HOME</a>
-                        <a class="btn btn-primary " href="/login" role="button">LOGIN</a>
-                    </p>
                 </div>
-
             </div>
-
-
-        </form></div>
     );
 
 }

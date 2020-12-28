@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Title</title>
+  <title>VNU Food</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,6 +28,17 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
 </body>
+<script>
+  $("#menu-toggle").click(function (e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+    $("#page-content-wrapper").toggleClass("content-toggled");
+    $("#menu-toggle-icon").toggleClass("fa-outdent");
+  });
+  function goToByScroll(id){
+    document.getElementById(id).scrollIntoView(true);
+}
+</script>
 <script>
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()

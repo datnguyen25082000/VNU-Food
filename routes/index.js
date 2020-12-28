@@ -15,15 +15,19 @@ router.post('/authenticate', (req, res) => {
     signed: true,
   };
 
-  const user = User.find(req.body)
+  console.log(req.body)
+
+  const user = User.findOne(req.body)
     .then(user => {
-      if (user[0] !== undefined) {
-        if (user[0].userType == 'admin' || user[0].userType == 'user') {
+      if (user !== undefined) {
+        console.log(user)
+        if (user.userType == 'admin' || user.userType == 'user') {
+          console.log('ok')
           if (req.cookies.toString() != '') {
-            res.cookie('account', user[0].userType, { signed: true });
+            res.cookie('account', user.userType, { signed: true });
           }
 
-          res.status(200).json({ screen: user[0].userType });
+          res.status(200).json({ screen: user.userType });
         }
       }
       else {
