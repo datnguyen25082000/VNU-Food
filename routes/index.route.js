@@ -5,7 +5,6 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.cookie('cookie1', 'This is my first cookie', { signed: true });
   res.render('index', { title: '//' });
 });
 

@@ -31,14 +31,14 @@ export default class ListPost extends Component {
     }
 
 
-    async componentDidMount() {
-        const response = await axios.get('http://localhost:5000/postList/');
-        this.setState({ posts: response.data.reverse() })
+    async componentWillMount() {
+        const response = await axios.get('http://localhost:5000/posts/');
+        this.setState({ posts: response.data.posts.reverse() })
     }
 
     async componentDidUpdate(prevProps) {
-        const response = await axios.get('http://localhost:5000/postList/');
-        this.setState({ posts: response.data.reverse() })
+        const response = await axios.get('http://localhost:5000/posts/');
+        this.setState({ posts: response.data.posts.reverse() })
     }
 
     lastBookElementRef = () => {
@@ -53,8 +53,8 @@ export default class ListPost extends Component {
                 list.map((item, index) => {
 
                     return (
-                        <CSSTransition key={item._id} timeout={300} classNames="transition">
-                            <Post post={item} key={item._id} />
+                        <CSSTransition key={item.postID} timeout={300} classNames="transition">
+                            <Post post={item} key={item.postID} />
                         </CSSTransition>
                     )
                 })
@@ -68,7 +68,7 @@ export default class ListPost extends Component {
     render() {
         var list = this.state.posts;
         return (
-            <TransitionGroup component={StyledGrid} className="row">
+            <TransitionGroup component={StyledGrid} className="row container m-auto">
                 {this.renderListPost()}
             </TransitionGroup>
         );

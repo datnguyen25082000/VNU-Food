@@ -1,51 +1,58 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var cookieParser = require('cookie-parser');
-var cors = require('cors');
-var path = require('path');
-var bodyParser = require('body-parser');
-require('dotenv').config();
+const express = require('express');
+const dotenv = require('dotenv');
+const passport = require('passport');
+const flash = require('connect-flash');
+const session = require('express-session');
+const app = express();
 
-var app = express();
-const PORT = process.env.PORT || 5000;
+require('dotenv');
+// Passport Config
+require('./routes/controllers/passport')(passport);
 
-// execute request format
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser("CibaQoHtaY0H3QOB1kqR8ad"));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// uncode url req
+dotenv.config({path: './.env'});
 app.use(express.urlencoded({
   extended: true
 }));
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-// public static
-app.use('/public', express.static('public'));
-
-// connect to mongodb
-const uri = "" + process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
-);
-const connection = mongoose.connection
-
-connection.once('open', () => {
-  console.log("MongoDB database connection established successfully");
-})
-
-
-app.use('/users',  require('./routes/users'));
-app.use('/', require('./routes/index'));
-app.use('/postList', require('./routes/postList.route'));
-
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:` + PORT);
+// PREVENT CLICK BACK TO PRIVATE ROUTE
+app.use(function(req, res, next) {
+  res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+  next();
 });
 
+// Express session (luwu thong tin dung chung co cacs req - thong tin dang nhap)
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+  })
+);
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
+// Connect flash
+app.use(flash());
 
+// Global variables
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+// STATIC FILE
+app.use('/public', express.static('public'));
+
+// MIDDLEWARE
+require('./middleware/locals.mdw')(app);
+require('./middleware/routes.mdw')(app);
+
+// START 
+const PORT = 5000;
+app.listen(PORT, _ => {
+  console.log(`Example app listening at http://localhost:${PORT}`);
+});

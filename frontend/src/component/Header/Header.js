@@ -4,8 +4,8 @@ import { StickyContainer, Sticky } from "react-sticky";
 class Header extends Component {
     render() {
         return (
-            <div className='w-100' style={{ zIndex: "10", top: "0px", position: "sticky"}}>
-                <nav className="navbar navbar-expand-md navbar-light bg-light shadow d-flex px-4 py-3 ">
+            <div className='w-100' style={{ zIndex: "10", top: "0px", position: "sticky", }}>
+                <nav className="navbar navbar-expand-md navbar-light shadow d-flex px-4 py-3 " style={{backgroundColor: "white"}}>
                     <a className="navbar-brand mr-3" href="/">
                         <span className="text-danger">Online</span> <span className='font-italic'
                             style={{ color: "rgb(123, 234, 253)", textShadow: "1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue" }}>Academy</span>
@@ -21,12 +21,7 @@ class Header extends Component {
                                 aria-label="Search" />
 
                             <div className="ml-3">
-                                <a className="btn my-2 my-sm-0 m-1 flex-grow-1 d-lg-inline d-none" href="/auth/login">
-                                    Teach on OA
-                                                </a>
-                                <a className="btn my-2 my-sm-0 m-1 flex-grow-1 mr-4" href="/auth/login">
-                                    <i className="fa fa-cart-plus" aria-hidden="true"></i>
-                                </a>
+                              
                                 <div className="d-lg-inline d-none">
                                     <a className="btn btn-outline-primary my-2 my-sm-0 m-1 text-primary" style={{ width: "6rem!important" }}
                                         href="/login">

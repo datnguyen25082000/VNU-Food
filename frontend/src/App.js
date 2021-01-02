@@ -14,15 +14,21 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="App">
-      
+
         <Switch>
-          <Route exact path="/" component={Customer} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <PrivateRoute exact path="/dashboard" />
-          <Route path="/" component={Page404} />
+          <Route exact path="/404" component={Page404} />
+          <Route path="/" component={Customer} />
+          <Route
+            exact
+            path="*"
+            name="Page 404"
+            render={props => <Page404 {...props} />}
+          />
         </Switch>
-      
+
       </div>
     </BrowserRouter>
   )
