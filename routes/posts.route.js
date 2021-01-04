@@ -1,6 +1,6 @@
 const express = require('express');
 const PostModel = require('../models/post.model');
-
+const multer = require('multer');
 const router = express.Router();
 
 router.get('/', async function (req, res) {
@@ -11,12 +11,27 @@ router.get('/', async function (req, res) {
   });
 })
 
-router.get('/add', function (req, res) {
-  res.render('vwUsers/add');
-})
-
-router.post('/add', async function (req, res) {
-  const ret = await PostModel.add(req.body);
+router.post('/add', function (req, res) {
+  console.log(req.body);
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/imagesPost/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+  });
+  const upload = multer({ storage })
+  upload.array('postImage', 10)(req, res, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    else {
+      console.log('upload file success')
+    }
+  })
+  res.send(true)
+  // const ret = await PostModel.add(req.body);
 })
 
 router.post('/del', async function (req, res) {

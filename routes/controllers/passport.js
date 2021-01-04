@@ -7,8 +7,10 @@ module.exports = function (passport) {
   passport.use(
     new LocalStrategy({ usernameField: 'username' }, (username, password, done) => {
       // Match user
+      console.log("vao local r ne");
       User.single(username.toString())
         .then(user => {
+          console.log("hahahahah");
           if (!user) {
             return done(null, false, { message: 'That account is not registered' });
           }
@@ -17,15 +19,7 @@ module.exports = function (passport) {
             return done(null, user);
           else
             return done(null, false, { message: 'Password incorrect' });
-          //Match password
-          // bcrypt.compare(password, user.userPassword, (err, isMatch) => {
-          //   if (err) throw err;
-          //   if (isMatch) {
-          //     return done(null, user);
-          //   } else {
-          //     return done(null, false, { message: 'Password incorrect' });
-          //   }
-          // });
+
         });
     })
   );
@@ -33,10 +27,12 @@ module.exports = function (passport) {
   
 
   passport.serializeUser(function (user, done) {
+    console.log("vao serial r ne");
     done(null, user);
   });
 
   passport.deserializeUser(function (user, done) {
+    console.log("vao deserial r ne");
     done(null, user);
   });
 };

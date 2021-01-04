@@ -5,63 +5,46 @@ const passport = require('passport');
 const User = require('../models/user.model');
 const { forwardAuthenticated } = require('./controllers/auth');
 
-// Login Page
-router.get('/login', forwardAuthenticated, (req, res) => res.render('login', {
-  layout: false
-}));
-
-// Register Page
-router.get('/register', forwardAuthenticated, (req, res) => res.render('register', {
-  layout: false
-}));
-
 // Register
 router.post('/register', (req, res) => {
+  console.log(req.body);
   const { name, email, username, password, password2 } = req.body;
-  let errors = [];
 
-  if (!name || !email || !password || !password2 || !username) {
-    errors.push({ msg: 'Please enter all fields' });
-  }
+  User.single(username).then(user => {
+    if (user) {
 
-  if (password != password2) {
-    errors.push({ msg: 'Passwords do not match' });
-  }
-
-  if (password.length < 6) {
-    errors.push({ msg: 'Password must be at least 6 characters' });
-  }
-
-  if (errors.length > 0) {
-    res.render('register', {
-      err: true,
-      errorMsg: errors[0].msg,
-      layout: false
-    });
-  } else {
-    User.single(username).then(user => {
-      if (user) {
-        errors.push({ msg: 'Email already exists' });
-        res.render('register', {
-          err: true,
-          errorMsg: errors[0].msg,
-          layout: false
-        });
-      } else {
-        User.add({ userUsername: username, userPassword: password, userType: 1, userEmail: email, userDisplayName: name })
-        res.redirect('/auth/login');
-      }
-    });
-  }
+    } else {
+      User.add({ userUsername: username, userPassword: password, userType: 1, userEmail: email, userDisplayName: name })
+    }
+  });
 });
 
 // Login
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/auth/login',
-    failureFlash: true
-  })(req, res, next);
+router.post('/login', (req, res) => {
+  // passport.authenticate('local', {
+  //   failureFlash: true
+  // })(req, res);
+  const username = req.body.username;
+  const password = req.body.password;
+  User.single(username.toString())
+    .then(user => {
+      console.log("hahahahah");
+      if (!user) {
+        res.send({ logged: false, code: 0 })
+        return;
+      }
+
+      if (password == user.userPassword) {
+        req.session.user = user;
+        req.session.save();
+        console.log(req.session);
+        res.send({ user: user, logged: true })
+      }
+
+      else
+        res.send({ user: null, logged: false, code: 1 })
+
+    });
 });
 
 // Logout

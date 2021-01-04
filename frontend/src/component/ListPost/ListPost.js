@@ -4,11 +4,12 @@ import axios from 'axios';
 import styled from "styled-components";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import loadingImage from './Magnify-1.6s-197px.svg';
+import PostForm from '../PostForm/PostForm';
 
 
 const loading = () => (
     <div className="animated fadeIn pt-3 text-center">Loading...</div>
-  );
+);
 
 const StyledGrid = styled.div`
     .transition-enter {
@@ -30,13 +31,7 @@ export default class ListPost extends Component {
         this.state = { posts: [] }
     }
 
-
     async componentWillMount() {
-        const response = await axios.get('http://localhost:5000/posts/');
-        this.setState({ posts: response.data.posts.reverse() })
-    }
-
-    async componentDidUpdate(prevProps) {
         const response = await axios.get('http://localhost:5000/posts/');
         this.setState({ posts: response.data.posts.reverse() })
     }
@@ -68,9 +63,13 @@ export default class ListPost extends Component {
     render() {
         var list = this.state.posts;
         return (
-            <TransitionGroup component={StyledGrid} className="row container m-auto">
-                {this.renderListPost()}
-            </TransitionGroup>
+            <div>
+               <div className="container"> <PostForm /></div>
+                <TransitionGroup component={StyledGrid} className="row container m-auto">
+                    {this.renderListPost()}
+                </TransitionGroup>
+            </div>
+
         );
     }
 }

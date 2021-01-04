@@ -1,7 +1,6 @@
 import React from "react";
 
 const Detail = React.lazy(() => import("./component/Detail/Detail"));
-
 const ListPost = React.lazy(() => import("./component/ListPost/ListPost"));
 
 // các route trong DefaultLayout

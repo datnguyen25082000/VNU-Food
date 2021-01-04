@@ -44,7 +44,7 @@ export default class Customer extends Component {
                                 </Suspense>
                             </Container>
 
-                           
+
                             {/* <PostForm />
                             <ListPost /> */}
                         </div>

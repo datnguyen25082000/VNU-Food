@@ -10,12 +10,18 @@ export default class PostForm extends Component {
         super(props);
 
         this.state = {
-            postID: '',
-            postContent: ''
+            postDes: '',
+            postDetail: '',
+            postImage: "",
         }
     }
 
-    notify = () => toast.info("You have posted. Thanks for your post !", {
+    notifySuccess = () => toast.info("You have posted. Thanks for your post !", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 2000,
+        transition: Flip,
+    });
+    notifyError = () => toast.info("You should login to post !", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 2000,
         transition: Flip,
@@ -24,32 +30,57 @@ export default class PostForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const res = axios.post('/postList/add', { ...this.state });
-        this.notify();
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const postUser = user.userUsername;
+            let formData = new FormData();
+            formData.append('postImage', this.state.postImage)
+            formData.append('postDes', "this.state.postDes");
+            formData.append('postDetail', this.state.postDetail);
+            formData.append('postUser', postUser);
+            console.log('form-data: ');
+            console.log(formData)
+            console.log(this.state)
+
+            if (postUser !== undefined) {
+                const res = axios.post('/posts/add', formData);
+                this.notifySuccess();
+                // window.location.reload();
+            }
+            else {
+                this.notifyError();
+            }
+        }
+        catch (err) {
+            this.notifyError();
+        }
     }
 
-    handlePostIDChange = (e) => {
+    handlePostDesChange = (e) => {
         this.setState({
-            postID: e.target.value
+            postDes: e.target.value
         });
-
-        console.log(this.state.postID)
     }
 
     handleEditorChange = (content, editor) => {
         this.setState({
-            postContent: content
+            postDetail: content
         });
+    }
 
-        console.log(this.state.postContent)
+    handlePostImageChange = (e) => {
+        this.setState({
+            postImage: e.target.files[0]
+        });
+        console.log(e.target.files)
     }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit} className="p-5">
+            <form onSubmit={this.handleSubmit} className="p-5" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="text" onChange={this.handlePostIDChange}
-                        class="form-control" name="postID" id="postID" aria-describedby="helpId" placeholder="" />
+                    <input type="text" onChange={this.handlePostDesChange}
+                        class="form-control" name="postDes" id="postDes" aria-describedby="helpId" placeholder="" />
                 </div>
 
                 <Editor
@@ -66,8 +97,14 @@ export default class PostForm extends Component {
                     }}
                     onEditorChange={this.handleEditorChange}
                 />
+
+
                 <br />
-                <input type="submit" className="btn btn-primary " value="Submit" />
+                <div class="file-loading">
+                    <input id="postImage" name="postImage" type="file" multiple onChange={this.handlePostImageChange} />
+                </div>
+                <button type="submit" className="btn btn-outline-info mt-3 px-5">Post</button>
+
                 <ToastContainer />
 
             </form>

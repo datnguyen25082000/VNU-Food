@@ -1,6 +1,7 @@
 module.exports = {
   // LOGGED ??
   ensureAuthenticated: function (req, res, next) {
+    console.log("vao ensure r ne");
     if (req.isAuthenticated()) {
       return next();
     }
@@ -10,6 +11,7 @@ module.exports = {
 
   // RENDER DASHBOARD SCREEN EACH ACCOUNT
   typeAuthenticated: function (req, res, next) {
+    console.log("vao type r ne");
     if (req.isAuthenticated()) {
       // ADMIN
       if (req.user.userType === 0) {
@@ -32,6 +34,7 @@ module.exports = {
   },
 
   forwardAuthenticated: function (req, res, next) {
+    console.log("vao forward r ne");
     if (!req.isAuthenticated()) {
       return next();
     }
