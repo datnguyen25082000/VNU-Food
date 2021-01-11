@@ -7,6 +7,10 @@ module.exports = {
     return db.load(`select * from ${TBL_POSTS}`);
   },
 
+  allSearch(data) {
+    return db.load(`select * from ${TBL_POSTS} where match(postDes) AGAINST('${data}')`);
+  },
+
   add(entity) {
     return db.add(entity, TBL_POSTS)
   },
@@ -14,6 +18,14 @@ module.exports = {
   del(entity) {
     const condition = { postID: entity.postID };
     return db.del(condition, TBL_POSTS);
+  },
+
+  maxIndex() {
+    const rows = db.load(`select MAX(postID) as max from ${TBL_POSTS}`);
+    if (rows.length === 0)
+      return null;
+
+    return rows;
   },
 
   async single(id) {

@@ -14,7 +14,7 @@ class Header extends Component {
         var user = JSON.parse(localStorage.getItem('user'));
         var logged = localStorage.getItem('logged')
 
-        if (user !== undefined && user !== null && logged) {
+        if (logged) {
             return (
                 <div class="ml-5  d-flex">
                     <div class="nav-item dropdown d-lg-inline d-none">
@@ -23,15 +23,15 @@ class Header extends Component {
                             <i class="fa fa-user-circle mr-1" aria-hidden="true"></i>
                             <b>{user.userUsername}</b>
                         </a>
-                        <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/account/profile">
+                        <div class="dropdown-menu  dropdown-menu-right p-0" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item px-3 py-2 text-center list-group-item" href="/profile">
                                 <i class="fa fa-user mr-2" aria-hidden="true"></i>
-                Profile
-              </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="javascript:void(0)" onClick={this.handleLogout}>
+                            Tài khoản
+                            </a>
+                            <div class="dropdown-divider m-0"></div>
+                            <a class="dropdown-item px-3 py-2 text-center list-group-item" href="javascript:void(0)" onClick={this.handleLogout}>
                                 <i class="fa fa-sign-out mr-2" aria-hidden="true"></i>
-                Sign Out
+                Đăng xuất
               </a>
                         </div>
                     </div>
@@ -40,14 +40,14 @@ class Header extends Component {
         }
         else {
             return (
-                <div className="d-lg-inline d-none">
-                    <a className="btn btn-outline-primary my-2 my-sm-0 m-1 text-primary" style={{ width: "6rem!important" }}
+                <div className="d-lg-flex d-none">
+                    <a className="btn btn-outline-primary my-2 my-sm-0 m-1 text-primary" style={{ width: "7rem" }}
                         href="/login">
-                        Log in
+                        Đăng nhập
                     </a>
-                    <a className="btn btn-outline-primary my-2 my-sm-0 m-1 bg-primary text-white " style={{ width: "6rem!important" }}
+                    <a className="btn btn-outline-primary my-2 my-sm-0 m-1 bg-primary text-white " style={{ width: "7rem" }}
                         href="/register">
-                        Sign up
+                        Đăng ký
                     </a>
                 </div>
             )
@@ -67,15 +67,15 @@ class Header extends Component {
                             className="fas fa-indent"></i>
                         </button>
                         <form id="frmLogout" method="POST" action="/auth/logout"></form>
-                        <form className="form-inline my-2 my-lg-0 form-nav flex-grow-1">
-                            <input className="form-control mr-sm-2 flex-grow-1 mx-3 mr-2" type="search" placeholder="Search"
+                        <div className="form-inline my-2 my-lg-0 form-nav flex-grow-1">
+                            <input className="form-control mr-sm-2 flex-grow-1 mx-3 mr-2" id="searchInput" type="search" placeholder="Tìm kiếm bài đăng"
                                 aria-label="Search" />
 
                             <div className="ml-3">
 
                                 {this.authRender()}
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </nav>
             </div>

@@ -35,12 +35,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
 
+
   <script>
     $(document).ready(function () {
       $("#postImage").fileinput({
         theme: 'fa',
         allowedFileExtensions: ["jpg", "png", "gif"],
-        uploadUrl: "/posts/add",
         showUploadedThumbs: false,
         autoReplace: true,
         initialPreviewShowUpload: false,
@@ -75,5 +75,5 @@
     $('[data-toggle="tooltip"]').tooltip()
   })
 </script>
-
+<script src="./main.js"></script>
 </html>

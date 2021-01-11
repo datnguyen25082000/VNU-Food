@@ -11,6 +11,21 @@
    overflow-x: hidden;
  }
 
+.image-gallery-thumbnail-image {
+  width: auto;
+  max-height: 75px;
+}
+
+.image-gallery-image {
+  width: 450px;
+  height: 250px;
+}
+
+.fullscreen .image-gallery-image {
+  width: max-content;
+  height: max-content;
+}
+
  #sidebar-wrapper {
    min-height: 100vh;
    margin-left: -15rem;

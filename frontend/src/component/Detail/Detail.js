@@ -3,35 +3,9 @@ import axios from 'axios';
 import Rate from 'rc-rate';
 import Comment from '../Comment/Comment'
 import styled from 'styled-components';
+import Resizer from 'react-image-file-resizer';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
-
-const images = [
-    {
-        original: 'https://picsum.photos/id/1018/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1018/250/150/',
-    },
-    {
-        original: 'https://picsum.photos/id/1015/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1015/250/150/',
-    },
-    {
-        original: 'https://picsum.photos/id/1019/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1019/250/150/',
-    },
-    {
-        original: 'https://picsum.photos/id/1018/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1018/250/150/',
-    },
-    {
-        original: 'https://picsum.photos/id/1015/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1015/250/150/',
-    },
-    {
-        original: 'https://picsum.photos/id/1019/1000/600/',
-        thumbnail: 'https://picsum.photos/id/1019/250/150/',
-    },
-];
 
 const StyledRate = styled(Rate)`
   &.rc-rate {
@@ -39,18 +13,23 @@ const StyledRate = styled(Rate)`
     
   }
 `
+
+
 export default class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             post: {},
-            comments: ['a', 'b', 'c', 'd']
+            comments: ['a', 'b', 'c', 'd'],
+            images: [],
         }
     }
-    
+
     async componentWillMount() {
         const response = await axios.get('http://localhost:5000/posts/' + this.props.match.params.id);
         this.setState({ post: response.data.post })
+        const images = await axios.get('http://localhost:5000/posts/img/' + this.props.match.params.id);
+        this.setState({ images: images.data.arrayList })
     }
 
     listComment = () => {
@@ -60,6 +39,25 @@ export default class Detail extends Component {
                     <Comment />
                 )
             })
+        )
+    }
+
+    renderImageSlide = () => {
+        const images = this.state.images;
+        var arrayList = [];
+
+        if (images !== undefined) {
+            for (var i = 0; i < images.length; i++) {
+                const a = images[i];
+                var image = {
+                    original: images[i],
+                    thumbnail: images[i],
+                }
+                arrayList.push(image)
+            }
+        }
+        return (
+            <ImageGallery items={arrayList} />
         )
     }
 
@@ -104,7 +102,7 @@ export default class Detail extends Component {
                     <div className="post-detail mt-4">
                         <div className="row d-flex">
                             <div className="col-5">
-                                <ImageGallery items={images} />
+                                {this.renderImageSlide()}
                             </div>
                             <div className="col-7">
                                 <div className="rounded w-100 h-100 d-flex justify-content-between flex-column p-3" style={{ backgroundColor: "#E2C6C6" }}>

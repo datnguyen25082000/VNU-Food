@@ -34,18 +34,17 @@ export default class PostForm extends Component {
             const user = JSON.parse(localStorage.getItem('user'));
             const postUser = user.userUsername;
             let formData = new FormData();
-            formData.append('postImage', this.state.postImage)
-            formData.append('postDes', "this.state.postDes");
+            for (let i = 0; i < this.state.postImage.length; i++) {
+                formData.append(`postImage`, this.state.postImage[i])
+            }
+            formData.append('postDes', this.state.postDes);
             formData.append('postDetail', this.state.postDetail);
             formData.append('postUser', postUser);
-            console.log('form-data: ');
-            console.log(formData)
-            console.log(this.state)
 
             if (postUser !== undefined) {
                 const res = axios.post('/posts/add', formData);
                 this.notifySuccess();
-                // window.location.reload();
+                window.location.reload();
             }
             else {
                 this.notifyError();
@@ -69,10 +68,10 @@ export default class PostForm extends Component {
     }
 
     handlePostImageChange = (e) => {
+       
         this.setState({
-            postImage: e.target.files[0]
+            postImage: e.target.files
         });
-        console.log(e.target.files)
     }
 
     render() {
