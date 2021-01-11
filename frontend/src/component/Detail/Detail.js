@@ -3,9 +3,9 @@ import axios from 'axios';
 import Rate from 'rc-rate';
 import Comment from '../Comment/Comment'
 import styled from 'styled-components';
-import Resizer from 'react-image-file-resizer';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
+import CommentForm from '../Comment/CommentForm'
 
 const StyledRate = styled(Rate)`
   &.rc-rate {
@@ -14,13 +14,12 @@ const StyledRate = styled(Rate)`
   }
 `
 
-
 export default class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             post: {},
-            comments: ['a', 'b', 'c', 'd'],
+            comments: [],
             images: [],
         }
     }
@@ -30,16 +29,21 @@ export default class Detail extends Component {
         this.setState({ post: response.data.post })
         const images = await axios.get('http://localhost:5000/posts/img/' + this.props.match.params.id);
         this.setState({ images: images.data.arrayList })
+        const comments = await axios.get('http://localhost:5000/posts/getComment/' + this.state.post.postID)
+        this.setState({ comments: comments.data.rows })
     }
 
     listComment = () => {
-        return (
-            this.state.comments.map((item, index) => {
+        const comments = this.state.comments;
+        if (comments) {
+            if (comments.length != 0)
                 return (
-                    <Comment />
+                    comments.map((item) => {
+                        return <Comment commentPost={item} />
+                    })
                 )
-            })
-        )
+        }
+
     }
 
     renderImageSlide = () => {
@@ -134,14 +138,7 @@ export default class Detail extends Component {
                         <h4 className="py-3 my-3" style={{ borderBottom: "1px #D1CECE solid" }}>Đánh giá về bài viết</h4>
                         {this.listComment()}
 
-                        <div className="comment-form d-flex">
-                            <div className="user-avatar rounded-circle mr-3">
-                                <img className="rounded-circle" src="https://avatar-redirect.appspot.com/google/106274965921876463717?size=400" style={{ width: "50px" }} alt="" />
-                            </div>
-                            <div className="form-group flex-grow-1">
-                                <textarea className="form-control" name="" id="" rows="2"></textarea>
-                            </div>
-                        </div>
+                        <CommentForm postID={this.state.post.postID} />
                     </div>
                 </div>
             </div>

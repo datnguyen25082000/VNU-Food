@@ -3,6 +3,8 @@ import ListPost from '../../component/ListPost/ListPost';
 import Header from '../../component/Header/Header';
 import Sidebar from '../../component/Sidebar/Sidebar';
 import PostForm from '../../component/PostForm/PostForm';
+import Separate from '../../component/Separate/Separate';
+import Slideshow from '../../component/Slideshow/Slideshow';
 import { Container } from "reactstrap";
 
 import "../../css/simple-sidebar.css";
@@ -25,7 +27,6 @@ export default class Customer extends Component {
                     <div id="page-content-wrapper">
                         <div id="page-content-wrapper">
                             <Container fluid>
-
                                 <Suspense fallback={this.loading()}>
                                     <Switch>
                                         {routes.map((route, idx) => {
@@ -39,14 +40,11 @@ export default class Customer extends Component {
                                                 />
                                             ) : <PostForm />;
                                         })}
-
                                     </Switch>
                                 </Suspense>
+
                             </Container>
 
-
-                            {/* <PostForm />
-                            <ListPost /> */}
                         </div>
                     </div>
                 </div>

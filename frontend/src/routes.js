@@ -9,7 +9,6 @@ const routes = [
   { path: "/", exact: true, name: "Home" , component: ListPost},
   { path: "/search", exact: true, name: "Home" , component: ListPost},
   { path: "/cart", exact: true, name: "Cart", component: ListPost },
-  
   { path: "/posts/:id", exact: true, name: "Detail", component: Detail },
   { path: "/profile", name: "Profile", component: Profile }
 ];

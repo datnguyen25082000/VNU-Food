@@ -1,4 +1,5 @@
 const express = require('express');
+const commentModel = require('../models/comment.model');
 const PostModel = require('../models/post.model');
 const multer = require('multer');
 const router = express.Router();
@@ -49,7 +50,7 @@ router.get('/', async function (req, res) {
 
 router.get('/search', async function (req, res) {
   const data = req.query.data;
-  
+
   const rows1 = await PostModel.allSearch(data);
   const rows = Object.values(JSON.parse(JSON.stringify(rows1)))
 
@@ -76,6 +77,50 @@ router.post('/add', upload.array('postImage', 10), async function (req, res) {
   let postImage = "./public/imagesPost/" + postID;
   const ret = await PostModel.add({ postID, postDes, postDetail, postUser, postImage });
   res.send(true);
+})
+
+router.get('/getComment/:id', async function (req, res) {
+  const commentPost = req.params.id;
+
+  let rows = await commentModel.single(commentPost);
+  console.log(commentPost)
+  console.log('list comment')
+  console.log(rows)
+  if(rows == null ) {
+  }
+  else {
+    rows.forEach(row => {
+      let seconds = Math.round(Math.abs((new Date() - row.commentTime) / (1000)));
+      let minutes = 0, hours = 0, days = 0, months = 0, years = 0;
+      row.commentTime = seconds + " giây"
+      if (seconds >= 60) {
+        minutes = Math.round(seconds / 60);
+        row.commentTime = minutes + " phút"
+      }
+      if (minutes >= 60) {
+        hours = Math.round(minutes / 60);
+        row.commentTime = hours + " giờ"
+      }
+      if (hours >= 24) {
+        days = Math.round(hours / 24);
+        row.commentTime = days + " ngày"
+      }
+      if (days >= 30) {
+        months = Math.round(days / 30);
+        row.commentTime = months + " tháng"
+      }
+      if (months >= 12) {
+        years = Math.round(months / 12);
+        row.commentTime = years + " năm"
+      }
+    });
+  
+  }
+  //handle time
+ 
+  res.send({
+    rows
+  });
 })
 
 router.post('/del', async function (req, res) {
