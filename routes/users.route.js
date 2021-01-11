@@ -1,4 +1,5 @@
 const express = require('express');
+const commentModel = require('../models/comment.model');
 const UserModel = require('../models/user.model');
 
 const router = express.Router();
@@ -26,6 +27,21 @@ router.post('/del', async function (req, res) {
 router.post('/patch', async function (req, res) {
   const ret = await UserModel.patch(req.body);
   res.redirect('/users');
+})
+
+//send comment
+router.post('/comment', async function (req, res) {
+  console.log(req.body);
+  let data = {
+    //commentUser: ,
+    commentPost: req.body.commentPost,
+    commentContent: req.body.commentContent,
+    commentTime: new Date().toISOString().slice(0, 19).replace('T', ' ')
+  };
+
+  console.log(data);
+
+  //const ret = await commentModel.add(data);
 })
 
 router.get('/:id', async function (req, res) {
