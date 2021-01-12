@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 
-class Header extends Component {
+export default class Header1 extends Component {
     render() {
         return (
             <div className='w-100' style={{ zIndex: "10", top: "0px", position: "sticky", }}>
@@ -24,12 +24,12 @@ class Header extends Component {
                               
                                 <div className="d-lg-inline d-none">
                                     <a className="btn btn-outline-primary my-2 my-sm-0 m-1 text-primary" style={{ width: "6rem!important" }}
-                                        href="/login">
-                                        Log in
+                                        onClick = "javascript:document.getElementById('frmLogout').submit();">
+                                        Log outsdfasas
                                                     </a>
                                     <a className="btn btn-outline-primary my-2 my-sm-0 m-1 bg-primary text-white " style={{ width: "6rem!important" }}
-                                        href="/register">
-                                        Sign up
+                                        href="/Dashbo">
+                                        Profilesssssss
                                                     </a>
                                 </div>
                             </div>
@@ -41,4 +41,3 @@ class Header extends Component {
     }
 }
 
-export default Header;

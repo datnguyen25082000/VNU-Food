@@ -1,108 +1,129 @@
-const router = require('express').Router();
-let User = require('../models/user.model');
+const express = require('express');
+const UserModel = require('../models/user.model');
+const MyDinnerModel =require('../models/mydinner.model');
+const PostModel =require('../models/post.model');
 
-router.get('/', async function (req, res) {
-  User.find().then(users => {
+const router = express.Router();
 
-    res.render('vwUsers/index', {
-      listUsers: users.map(user => user.toJSON()),
-      empty: users.length === 0
+router.get('/', async function(req, res) {
+    const rows = await UserModel.all();
+    res.send({
+        users: rows,
+        empty: rows.length === 0
     });
-  })
-    .catch(err => res.status(400).json('Error; ' + err));
 })
 
-router.get('/add', async function (req, res) {
-  res.render('vwUsers/add');
+router.get('/add', function(req, res) {
+    res.render('vwUsers/add');
 })
 
-router.post('/add', async function (req, res) {
-  const username = req.body.username;
-  const password = req.body.password;
-  const displayName = req.body.displayName;
-  const email = req.body.email;
-  const newUser = new User({ username, password, displayName, email });
+router.post('', function(req, res) {
 
-  newUser.save();
-  res.render('vwUsers/add');
-})
-
-router.get('/:id', async function (req, res) {
-  const id = req.params.id;
-  const duser = await User.findById(id);
-  const user = duser.toJSON();
-  if (user === null) {
-    return res.redirect('/users');
-  }
-
-  res.render('vwUsers/edit', {
-    user
-  });
 })
 
 
+//Get mydinner 
+router.get('/mydiner',async function(req, res){
+    console.log('my diner');
+    const userName = req.body;
+    const x = await MyDinnerModel.all(userName);
 
+    var rows= [];
+    
+    for( i=0;i< x.length;i++)
+    {
+        const y= await PostModel.single(x[i].mydinerPost);
+        rows.push(y);
+    }
 
-
-router.route('/check').post((req, res) => {
-  User.find(req.body)
-    .then(user => {
-      res.json(user[0].username)
-    })
-    .catch(error => res.json({ isConnected: false }));
-});
-
-router.route('/add').post((req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const name = req.body.name;
-  const email = req.body.email;
-  const newUser = new User({ username, password, name, email });
-
-  newUser.save()
-    .then(() => res.json('User added'))
-    .catch(err => res.json({ register: false }));
-});
-
-router.route('/:userID').put((req, res) => {
-  var id = req.params.userID;
-
-  User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-    .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: 'Cannot update User with id=${id}. Maybe User was not found!'
-        });
-      } else res.send({ message: "User was updated successfully." });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating User with id=" + id
-      });
+    res.send({
+        posts: rows,
+        msg: '',
+        empty: rows.length === 0
     });
-});
+})
 
-router.route('/:userID').delete((req, res) => {
+//Add to my dinnner
+router.post('/addmydiner', async function(req, res){
+    const {userName, PostID} = req.body;
 
-  const id = req.params.userID;
+    const ret =await MyDinnerModel.single(userName, PostID);
 
-  User.findByIdAndRemove(id)
-    .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: 'Cannot delete user with id=${id}. Maybe user was not found!'
+    if( ret ==null)
+    {
+        MyDinnerModel.add({
+            mydinerPost : PostID,
+            mydinerUser : userName
         });
-      } else {
         res.send({
-          message: "User was deleted successfully!"
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete user with id=" + id
-      });
+            msg: "Ban da them thanh cong"
+        })
+    }else{
+        res.send({
+            msg: "Ban da them vao roi"
+        })
+    }
+})
+
+//Remove from my dinner 
+router.post('/rmDinner', async function(req, res) {
+    console.log('rmmdiner');
+    const {postID, userName} = req.body;
+    console.log(postID);
+    console.log(userName);
+    const ret =await MyDinnerModel.single(userName, postID);
+
+
+    if (ret != null){
+        await MyDinnerModel.del(ret);
+        console.log(ret);
+
+        const x = await MyDinnerModel.all(userName);
+
+        var rows= [];
+        
+        for( i=0;i< x.length;i++)
+        {
+            const y= await PostModel.single(x[i].mydinerPost);
+            rows.push(y);
+        }
+
+        console.log(rows);
+         res.send({
+             posts: rows,
+             msg: "Ban da xoa bua thanh cong",
+             empty: rows.length === 0
+         });
+        }else{
+         res.send({
+             msg: "Khong ton tai"
+         });
+     }
+})
+
+router.post('/add', async function(req, res) {
+    const ret = await UserModel.add(req.body);
+})
+
+router.post('/del', async function(req, res) {
+    const ret = await UserModel.del(req.body);
+})
+
+router.post('/patch', async function(req, res) {
+    const ret = await UserModel.patch(req.body);
+    res.redirect('/users');
+})
+
+router.get('/:id', async function(req, res) {
+    const id = req.params.id;
+    const user = await UserModel.single(id);
+    if (user === null) {
+        return 0;
+    }
+
+    res.send({
+        editUser: user
     });
-});
+})
 
 module.exports = router;

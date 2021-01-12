@@ -1,16 +1,32 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const db = require('../utils/db');
 
-const postSchema = new Schema({
-    userID: { type: String, required: true},
-    postID: { type: String, required: true},
-    postContent: { type: Number, required: true},
-    postDay: { type: String, required: true},
-    postType: { type: String, required: true},
-}, {
-    timestamps: true,
-});
+const TBL_POSTS = 'posts';
 
-const PostList = mongoose.model('PostList', postSchema);
+module.exports = {
+  all() {
+    return db.load(`select * from ${TBL_POSTS}`);
+  },
 
-module.exports = PostList;
+  add(entity) {
+    return db.add(entity, TBL_POSTS)
+  },
+
+  del(entity) {
+    const condition = { postID: entity.postID };
+    return db.del(condition, TBL_POSTS);
+  },
+
+  async single(id) {
+    const rows = await db.load(`select * from ${TBL_POSTS} where postID = '${id}' `);
+    if (rows.length === 0)
+      return null;
+
+    return rows[0];
+  },
+
+  patch(entity) {
+    const condition = { postID: entity.postID };
+    delete entity.username;
+    return db.patch(entity, condition, TBL_POSTS);
+  }
+};

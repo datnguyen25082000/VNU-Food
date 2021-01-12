@@ -1,21 +1,32 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const db = require('../utils/db');
 
-const userSchema = new Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        minlength: 3
-    },
-    password: {type: String, required: true},
-    displayName: {type: String, required: true},
-    email: {type: String},
-}, {
-    timestamps: true,
-});
+const TBL_USERS = 'users';
 
-const User = mongoose.model('User', userSchema);
+module.exports = {
+  all() {
+    return db.load(`select * from ${TBL_USERS}`);
+  },
 
-module.exports = User;
+  add(entity) {
+    return db.add(entity, TBL_USERS)
+  },
+
+  del(entity) {
+    const condition = { userUsername: entity.userUsername };
+    return db.del(condition, TBL_USERS);
+  },
+
+  async single(id) {
+    const rows = await db.load(`select * from ${TBL_USERS} where userUsername = '${id}' `);
+    if (rows.length === 0)
+      return null;
+
+    return rows[0];
+  },
+
+  patch(entity) {
+    const condition = { userUsername: entity.userUsername };
+    delete entity.username;
+    return db.patch(entity, condition, TBL_USERS);
+  }
+};
