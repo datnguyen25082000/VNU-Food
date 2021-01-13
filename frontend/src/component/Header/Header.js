@@ -1,42 +1,50 @@
 import React, { Component } from "react";
-import { StickyContainer, Sticky } from "react-sticky";
 
 class Header extends Component {
     render() {
         return (
-            <div className='w-100' style={{ zIndex: "10", top: "0px", position: "sticky", }}>
-                <nav className="navbar navbar-expand-md navbar-light shadow d-flex px-4 py-3 " style={{backgroundColor: "white"}}>
-                    <a className="navbar-brand mr-3" href="/">
-                        <span className="text-danger">Online</span> <span className='font-italic'
-                            style={{ color: "rgb(123, 234, 253)", textShadow: "1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue" }}>Academy</span>
-                    </a>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light shadow">
+                <a className="navbar-brand" href="#">
+                    <i className="fa fa-home fa-lg"></i>
+                </a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
 
-                    <div className="collapse navbar-collapse flex-grow-1" id="navbarSupportedContent">
-                        <button className="btn btn-primary d-lg-inline d-none" id="menu-toggle"><i id="menu-toggle-icon"
-                            className="fas fa-indent"></i>
-                        </button>
-                        <form id="frmLogout" method="POST" action="/auth/logout"></form>
-                        <form className="form-inline my-2 my-lg-0 form-nav flex-grow-1">
-                            <input className="form-control mr-sm-2 flex-grow-1 mx-3 mr-2" type="search" placeholder="Search"
-                                aria-label="Search" />
-
-                            <div className="ml-3">
-                              
-                                <div className="d-lg-inline d-none">
-                                    <a className="btn btn-outline-primary my-2 my-sm-0 m-1 text-primary" style={{ width: "6rem!important" }}
-                                        href="/login">
-                                        Log in
-                                                    </a>
-                                    <a className="btn btn-outline-primary my-2 my-sm-0 m-1 bg-primary text-white " style={{ width: "6rem!important" }}
-                                        href="/register">
-                                        Sign up
-                                                    </a>
-                                </div>
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav mr-auto">
+                        <li className="nav-item active">
+                            <a className="nav-link" href="http://localhost:3001/users">Home <span className="sr-only">(current)</span></a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Link</a>
+                        </li>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                  </a>
+                            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a className="dropdown-item" href="#">Action</a>
+                                <a className="dropdown-item" href="#">Another action</a>
+                                <div className="dropdown-divider"></div>
+                                <a className="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </form>
-                    </div>
-                </nav>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        </li>
+                    </ul>
+                    <form className="form-inline my-2 my-lg-0">
+                        <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+                                <i className="fa fa-search" aria-hidden="true"></i>
+                  Search
+                </button>
+              </form>
             </div>
+          </nav>
         );
     }
 }
