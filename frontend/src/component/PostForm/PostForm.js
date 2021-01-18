@@ -16,12 +16,17 @@ export default class PostForm extends Component {
         }
     }
 
-    notifySuccess = () => toast.info("You have posted. Thanks for your post !", {
+    notifySuccess = () => toast.info("Bạn đã đăng bài. cảm ơn bài chia sẽ của bạn !", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 2000,
         transition: Flip,
     });
-    notifyError = () => toast.info("You should login to post !", {
+    notifyFail = () => toast.info("Bạn cần nhập đầy đủ thông tin !", {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: 2000,
+        transition: Flip,
+    });
+    notifyError = () => toast.info("Bạn cần đăng nhập trước khi đăng bài !", {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: 2000,
         transition: Flip,
@@ -31,6 +36,10 @@ export default class PostForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         try {
+            if(this.state.postDes.length == 0 || this.state.postDetail.length == 0  || this.state.postImage.length == 0) {
+                this.notifyFail();
+                return
+            }
             const user = JSON.parse(localStorage.getItem('user'));
             const postUser = user.userUsername;
             let formData = new FormData();
