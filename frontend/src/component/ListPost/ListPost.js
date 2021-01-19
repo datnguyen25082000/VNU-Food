@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import loadingImage from './Magnify-1.6s-197px.svg';
 import Rate from 'rc-rate';
-import PostForm from '../PostForm/PostForm';
+import PostForm from '../PostForm/LoadPostForm';
 import './main.css'
 
 const StyledRate = styled(Rate)`

@@ -34,12 +34,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.4/js/locales/vi.min.js"
+    integrity="sha512-C7bgcih/TpVQUJnfDEzkWe8gcx7dosiBhSxhkY19k0AssJ45IEzimLUSkLXfgDvzMHRhBGJz1/TdqkXRzIu3Rg=="
+    crossorigin="anonymous"></script>
 
   <script>
     $(document).ready(function () {
       $("#postImage").fileinput({
         theme: 'fa',
+        language: 'vi',
         allowedFileExtensions: ["jpg", "png", "gif"],
         showUploadedThumbs: false,
         autoReplace: true,
@@ -64,10 +67,29 @@
     $("#page-content-wrapper").toggleClass("content-toggled");
     $("#menu-toggle-icon").toggleClass("fa-outdent");
   });
+
+  
+console.log($('#btn_preview_0'))
+  $('#btn_preview_0').click(function (e) {
+    alert('ahaa')
+    document.getElementById('id_0').style.display = 'block'
+    event.stopPropagation();
+  });
+
+  $('#id_0').on('click', function () {
+    event.stopPropagation();
+  });
+
+  $(document).click(function () {
+    document.getElementById('id_0').style.display = 'none'
+    player.stop();
+  });
+  
   function goToByScroll(id) {
     document.getElementById(id).scrollIntoView(true);
   }
 
+  
 </script>
 
 <script>

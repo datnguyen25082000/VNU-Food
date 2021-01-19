@@ -1,5 +1,4 @@
 
-try {
 
   $(document).ready(function () {
     $('.selected').click(function () {
@@ -32,8 +31,6 @@ try {
       var newUrl = url.href;
       window.location.href = newUrl;
     })
+
   });
 
-} catch (error) {
-
-}

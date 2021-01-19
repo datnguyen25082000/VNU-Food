@@ -84,13 +84,15 @@ export default class PostForm extends Component {
     }
 
     render() {
+        const a = this.props.data;
         return (
-            <form onSubmit={this.handleSubmit} className="p-5" enctype="multipart/form-data">
+            <form onSubmit={this.handleSubmit} className="mb-5" style={{'display': a}} enctype="multipart/form-data">
                 <div class="form-group">
+                    <label>Tiêu đề bài đăng</label>
                     <input type="text" onChange={this.handlePostDesChange}
                         class="form-control" name="postDes" id="postDes" aria-describedby="helpId" placeholder="" />
                 </div>
-
+                <label>Nội dung bài đăng</label>
                 <Editor
                     apiKey="3z24aq1ehvn6w8i0d878thpnmydyb6o2uqwjclilcagozhbt"
                     value=""
@@ -105,13 +107,13 @@ export default class PostForm extends Component {
                     }}
                     onEditorChange={this.handleEditorChange}
                 />
-
-
                 <br />
+                <label>Hình ảnh minh họa cho bài viết</label>
+
                 <div class="file-loading">
                     <input id="postImage" name="postImage" type="file" multiple onChange={this.handlePostImageChange} />
                 </div>
-                <button type="submit" className="btn btn-outline-info mt-3 px-5">Post</button>
+                <button type="submit" className="btn btn-outline-info mt-3 px-5">Đăng bài</button>
 
                 <ToastContainer />
 

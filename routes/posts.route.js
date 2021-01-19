@@ -90,7 +90,7 @@ router.get('/getComment/:id', async function (req, res) {
   }
   else {
     rows.forEach(row => {
-      let seconds = Math.round(Math.abs((new Date() - row.commentTime) / (1000)));
+      let seconds = Math.round(Math.abs((new Date() - row.commentTime) / (1000))) - 7*60*60;
       let minutes = 0, hours = 0, days = 0, months = 0, years = 0;
       row.commentTime = seconds + " giây"
       if (seconds >= 60) {
