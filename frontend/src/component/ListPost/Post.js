@@ -2,9 +2,21 @@ import React, { Component } from 'react'
 import Rate from 'rc-rate';
 import 'rc-rate/assets/index.css';
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 
 export default class Post extends Component {
+
+    handleSubmit = (e) => {
+        var user = JSON.parse(localStorage.getItem('user'));
+        axios
+            .post('http://localhost:5000/users/addmydiner', 
+                {PostID: this.props.post.postID, userName: user.userUsername})
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+        window.location.reload();
+        e.preventDefault();
+    }
 
     renderPostDetail = () => {
         var detail = this.props.post.postDetail;
@@ -34,8 +46,11 @@ export default class Post extends Component {
                                         {this.renderPostDetail()}
                                     </div>
                                 </p>
-                                <div className="text-center w-100" style={{ position: "absolute", bottom: "30px" }}>
-                                    <a type="button" href="#" className="btn px-3 mr-3 text-primary rounded" style={{ border: "1px #AFAFAF solid", width: "130px" }}>Lưu bài viết</a>
+                                <div className="text-center w-100 d-flex justify-content-center" style={{ position: "absolute", bottom: "30px" }}>
+                                    <form onSubmit={this.handleSubmit}>
+                                        <button type="submit" style={{ border: "1px #AFAFAF solid", width: "130px" }} class="btn px-3 mr-3 text-primary rounded">Lưu bài viết</button>
+                                        {/* <a type="submit" href="" className="btn px-3 mr-3 text-primary rounded" style={{ border: "1px #AFAFAF solid", width: "130px" }}>Lưu bài viết</a> */}
+                                    </form>
                                     
                                     <a type="button" href={"/posts/" +this.props.post.postID} className="btn px-3 bg-primary rounded" style={{  color: "white", width: "130px" }}>Chi tiết</a>
                                 </div>

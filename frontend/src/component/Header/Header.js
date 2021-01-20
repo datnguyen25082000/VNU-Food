@@ -16,7 +16,10 @@ class Header extends Component {
 
         if (logged) {
             return (
-                <div class="ml-5  d-flex">
+                <div class="ml-2  d-flex">
+                    <a name="" id="" class="btn btn-primary mr-3" href="/users/mydiner" role="button">
+                        Bữa ăn của tôi
+                    </a>
                     <div class="nav-item dropdown d-lg-inline d-none">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
